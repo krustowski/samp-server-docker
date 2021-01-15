@@ -29,3 +29,9 @@ Connection, actual status (players, weather, map, hostname) and RCON access can 
 pip3 install samp-client
 python3 check_server.py 127.0.0.1 7777
 ```
+
+## TODO
+
+- custom volume mounting (custom configs, gamemodes, env stuff)
+- pass server config fields using Docker ENV constants at docker run
+- forward `server_log.txt` to docker logs
