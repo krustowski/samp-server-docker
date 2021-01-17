@@ -34,4 +34,5 @@ python3 check_server.py 127.0.0.1 7777
 
 - custom volume mounting (custom configs, gamemodes, env stuff)
 - pass server config fields using Docker ENV constants at docker run
-- forward `server_log.txt` to docker logs
+- ~~forward `server_log.txt` to docker logs~~ (done)
+- fail2ban implementation for RCON brute-force attacks
