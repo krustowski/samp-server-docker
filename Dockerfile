@@ -17,8 +17,7 @@ RUN cd /srv && tar xzf /tmp/samp037r2-linux-server.tar.gz
 
 RUN sed -i 's|changeme|fsjfksdfhjshsdf|' /srv/samp03/server.cfg
 #RUN sed -i 's|announce 0|announce 1|' /srv/samp03/server.cfg
-
-#RUN nohup /srv/samp03/samp03svr && touch /srv/samp03/server_log.txt
+RUN ln -sf /dev/stdout /srv/samp03/server_log.txt
 
 #
 # run server
