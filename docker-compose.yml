@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  samp-server:
+    image: ${IMAGE_NAME}
+#    container_name: samp-server
+    build: 
+      context: .
+      args:
+        APP_ROOT: ${APP_ROOT}
+        TGZ_FILE: ${TGZ_FILE}
+    restart: unless-stopped
+    ports:
+      - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/tcp
+      - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/udp
+

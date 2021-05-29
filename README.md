@@ -30,10 +30,29 @@ pip3 install samp-client
 python3 check_server.py 127.0.0.1 7777
 ```
 
+## Scale
+
+Using `.env` file, where you can define `PORT_RANGE_START` and `PORT_RANGE_STOP` variables, you can scale the number of SA:MP servers!
+
+```
+vim .env
+docker-compose up -d --scale samp-server=10
+
+# deprecated/legacy syntax
+docker-compose scale samp-server=10
+```
+
+Easily, you can just edit `.env` file -- set `SCALE_NUM` to desired number (edit port range accordingly!) and run:
+
+```
+make run
+```
+
 ## TODO
 
-- docker-compose implementation! + easy scaling
+- ~~docker-compose implementation! + easy scaling~~
 - custom volume mounting (custom configs, gamemodes, env stuff)
 - pass server config fields using Docker ENV constants at docker run
 - ~~forward `server_log.txt` to docker logs~~ (done)
 - fail2ban implementation for RCON brute-force attacks
+
