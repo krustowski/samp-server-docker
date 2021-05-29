@@ -2,6 +2,8 @@
 
 -include .env
 
+RUN_FROM_MAKEFILE?=1
+
 # define standard colors
 # https://gist.github.com/rsperl/d2dfe88a520968fbc1f49db0a29345b9
 ifneq (,$(findstring xterm,${TERM}))
@@ -39,10 +41,9 @@ info:
 	
 	@echo " ${YELLOW}make deploy${RESET}       --  rebuild image + recreate container"
 	@echo " ${YELLOW}make stop${RESET}         --  stop and destroy all linked containers"
-	@echo " ${YELLOW}make bash${RESET}         --  enter container with bash shell\n"
 	
-	@echo " ${YELLOW}make logs${RESET}         --  show docker logs"
-	@echo " ${YELLOW}make flat${RESET}         --  flatten the image"
+#	@echo " ${YELLOW}make logs${RESET}         --  show docker logs"
+#	@echo " ${YELLOW}make flat${RESET}         --  flatten the image"
 	@echo " ${YELLOW}make prune${RESET}        --  prune docker system trash (old images etc)\n"
 
 deploy: build run
@@ -53,15 +54,12 @@ build:
 
 run:
 	@echo "\n ${BLUE}Running brand-new container(s) ...${RESET}\n"
-	@docker-compose up --detach --scale samp-server=${SCALE_NUM}
+	@bin/check_configs.sh && \
+		docker-compose up --detach --scale samp-server=${SCALE_NUM}
 
 stop:
 	@echo "\n ${BLUE}Stopping and removing linked container(s) ...${RESET}\n"
 	@docker-compose down
-
-bash:
-	@echo "\n ${BLUE}Exectuing '${COMMAND}' to '${EP_CONTAINER_NAME}' ...${RESET}\n"
-	@docker exec -it ${EP_CONTAINER_NAME} ${COMMAND}
 
 logs:
 	@echo "\n ${BLUE}Concatenating logs for '${EP_CONTAINER_NAME}' ...${RESET}\n"

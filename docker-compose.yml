@@ -13,4 +13,6 @@ services:
     ports:
       - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/tcp
       - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/udp
+#    volumes:
+#      - "instances/:/srv/samp03/"
 
