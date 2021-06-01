@@ -2,7 +2,7 @@ version: '3.6'
 
 services:
   samp-server:
-    image: ${IMAGE_NAME}
+    image: ${TAG}
 #    container_name: samp-server
     build: 
       context: .
@@ -13,6 +13,7 @@ services:
     ports:
       - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/tcp
       - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/udp
-#    volumes:
+    volumes:
 #      - "instances/:/srv/samp03/"
+      - "./instances/:/mnt/"
 

@@ -9,6 +9,6 @@
 
 mkdir -p instances/ && cd instances/
 
-for i in $(seq 1 ${SCALE_NUM}); do \
-    mkdir -p srv_${i};
+for d in $(ls); do
+	docker ps -q | grep -q $d || rm -rf $d;
 done

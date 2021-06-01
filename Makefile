@@ -3,6 +3,7 @@
 -include .env
 
 RUN_FROM_MAKEFILE?=1
+PORT?=7777
 
 # define standard colors
 # https://gist.github.com/rsperl/d2dfe88a520968fbc1f49db0a29345b9
@@ -54,21 +55,26 @@ build:
 
 run:
 	@echo "\n ${BLUE}Running brand-new container(s) ...${RESET}\n"
-	@bin/check_configs.sh && \
+	@mkdir -p instances/ && \
 		docker-compose up --detach --scale samp-server=${SCALE_NUM}
 
 stop:
 	@echo "\n ${BLUE}Stopping and removing linked container(s) ...${RESET}\n"
 	@docker-compose down
 
-logs:
-	@echo "\n ${BLUE}Concatenating logs for '${EP_CONTAINER_NAME}' ...${RESET}\n"
-	@docker logs ${EP_CONTAINER_NAME}
+#flat:
+#	@echo "\n ${BLUE}Flattening built docker image ...${RESET}\n"
+#	@docker export ${EP_CONTAINER_NAME} -o /tmp/${EP_CONTAINER_NAME}.tar
+#	@docker import /tmp/${EP_CONTAINER_NAME}.tar ${EP_CONTAINER_NAME}-flat:latest
 
-flat:
-	@echo "\n ${BLUE}Flattening built docker image ...${RESET}\n"
-	@docker export ${EP_CONTAINER_NAME} -o /tmp/${EP_CONTAINER_NAME}.tar
-	@docker import /tmp/${EP_CONTAINER_NAME}.tar ${EP_CONTAINER_NAME}-flat:latest
+test:
+	@echo "\n ${BLUE}Testing server (def. localhost:7777 -- specify by PORT) ...${RESET}\n"
+	@python3 bin/check_server.py localhost ${PORT}
+
+push:
+	@echo "\n ${BLUE}Pushing build image to Docker Hub ...${RESET}\n"
+	@docker login && \
+		docker push ${TAG}
 
 prune:
 	@echo "\n ${BLUE}Executing 'docker system prune' ...${RESET}\n"
