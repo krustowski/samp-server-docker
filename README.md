@@ -17,6 +17,11 @@ make
 # build the image and run the container locally
 make deploy
 
+# test server connection using python package 'samp-client' (installed by pip)
+# credit: https://github.com/mick88/samp-client
+make test
+bin/check_server.py 127.0.0.1 7777
+
 # show game logs (continuous fetching)
 make logs
 
@@ -41,17 +46,6 @@ Image can be built using Dockerfile as well on the local machine:
 ```
 docker build . -t samp-server-built-image
 docker run -d -p 7777:7777 -p 7777:7777/udp --name samp-server2 samp-server-built-image
-```
-
-## Check connection
-
-Thanks to https://github.com/mick88/samp-client
-
-Connection, actual status (players, weather, map, hostname) and RCON access can be done using:
-
-```
-pip install samp-client
-check_server.py 127.0.0.1 7777
 ```
 
 

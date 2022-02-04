@@ -1,4 +1,6 @@
+#
 # samp-server-docker Makefile
+#
 
 -include .env
 
@@ -31,6 +33,7 @@ endif
 
 export
 
+
 #
 # targets
 #
@@ -44,8 +47,7 @@ info:
 	@echo -e " ${YELLOW}make stop${RESET}         --  stop and destroy all linked containers\n"
 	
 	@echo -e " ${YELLOW}make logs${RESET}         --  show docker logs"
-#	@echo -e " ${YELLOW}make flat${RESET}         --  flatten the image"
-	@echo -e " ${YELLOW}make prune${RESET}        --  prune docker system trash (old images etc)\n"
+	@echo -e " ${YELLOW}make test${RESET}         --  test the connection to SA:MP server\n"
 
 deploy: build run
 
@@ -56,7 +58,6 @@ build:
 run:
 	@echo -e "\n ${BLUE}Running brand-new container(s) ...${RESET}\n"
 	@docker-compose up --detach --force-recreate
-#docker-compose up --detach --scale samp-server=${SCALE_NUM}
 
 stop:
 	@echo -e "\n ${BLUE}Stopping and removing linked container(s) ...${RESET}\n"
@@ -64,7 +65,7 @@ stop:
 
 test:
 	@echo -e "\n ${BLUE}Testing server (def. localhost:7777 -- specify by EXTERNAL_PORT) ...${RESET}\n"
-	@pip install samp-client && \
+	@pip install samp-client >/dev/null && \
 		bin/check_server.py localhost ${EXTERNAL_PORT}
 
 logs:
@@ -75,8 +76,4 @@ push:
 	@echo -e "\n ${BLUE}Pushing build image to Docker Hub ...${RESET}\n"
 	@docker login && \
 		docker push ${TAG}
-
-prune:
-	@echo -e "\n ${BLUE}Executing 'docker system prune' ...${RESET}\n"
-	@docker system prune
 
