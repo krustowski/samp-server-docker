@@ -1,9 +1,16 @@
 # GTA SA:MP Linux Server in Docker (~128 MB)
 
-Very simple docker image for running GTA SA:MP Server 0.37 R2-1. The image can be pulled from Docker hub (see below).
+Very simple docker image for running GTA SA:MP Server 0.37 R2-1.
+
+Docker Hub:
++ https://hub.docker.com/r/krustowski/samp-server-docker
+
+Original Linux server tar.gz can be found here (included in this repo):
++ http://files.sa-mp.com/samp037svr_R2-1.tar.gz
++ https://www.sa-mp.com/download.php
 
 
-## Run image
+## Run image (using Makefile)
 
 Easiest way is using Makefile and .env (core constants) files:
 
@@ -30,10 +37,12 @@ make stop
 ```
 
 
+## Run image "manually"
+
 Pull the image from Docker Hub and run it 
 
 ```
-docker run -d -p 7777:7777 -p 7777:7777/udp --name samp-server krustowski/samp-server-docker
+docker run -d --rm -p 7777:7777 -p 7777:7777/udp --name samp-server krustowski/samp-server-docker
 ```
 
 It it vital to forward both TCP and UDP ports!
