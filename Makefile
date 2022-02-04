@@ -3,7 +3,7 @@
 -include .env
 
 RUN_FROM_MAKEFILE?=1
-PORT?=7777
+EXTERNAL_PORT?=7777
 
 # define standard colors
 # https://gist.github.com/rsperl/d2dfe88a520968fbc1f49db0a29345b9
@@ -38,44 +38,45 @@ export
 all: info
 
 info:
-	@echo "\n ${BLUE}Makefile for SA:MP Linux Server${RESET}\n"
+	@echo -e "\n ${BLUE}Makefile for SA:MP Linux Server${RESET}\n"
 	
-	@echo " ${YELLOW}make deploy${RESET}       --  rebuild image + recreate container"
-	@echo " ${YELLOW}make stop${RESET}         --  stop and destroy all linked containers"
+	@echo -e " ${YELLOW}make deploy${RESET}       --  rebuild image + recreate container"
+	@echo -e " ${YELLOW}make stop${RESET}         --  stop and destroy all linked containers\n"
 	
-#	@echo " ${YELLOW}make logs${RESET}         --  show docker logs"
-#	@echo " ${YELLOW}make flat${RESET}         --  flatten the image"
-	@echo " ${YELLOW}make prune${RESET}        --  prune docker system trash (old images etc)\n"
+	@echo -e " ${YELLOW}make logs${RESET}         --  show docker logs"
+#	@echo -e " ${YELLOW}make flat${RESET}         --  flatten the image"
+	@echo -e " ${YELLOW}make prune${RESET}        --  prune docker system trash (old images etc)\n"
 
 deploy: build run
 
 build:
-	@echo "\n ${BLUE}Building the image ...${RESET}\n"
-	@docker-compose build
+	@echo -e "\n ${BLUE}Building the image ...${RESET}\n"
+	@docker-compose build 
 
 run:
-	@echo "\n ${BLUE}Running brand-new container(s) ...${RESET}\n"
-	@mkdir -p instances/ && \
-		docker-compose up --detach --scale samp-server=${SCALE_NUM}
+	@echo -e "\n ${BLUE}Running brand-new container(s) ...${RESET}\n"
+	@docker-compose up --detach --force-recreate
+#docker-compose up --detach --scale samp-server=${SCALE_NUM}
 
 stop:
-	@echo "\n ${BLUE}Stopping and removing linked container(s) ...${RESET}\n"
+	@echo -e "\n ${BLUE}Stopping and removing linked container(s) ...${RESET}\n"
 	@docker-compose down
 
-#flat:
-#	@echo "\n ${BLUE}Flattening built docker image ...${RESET}\n"
-#	@docker export ${EP_CONTAINER_NAME} -o /tmp/${EP_CONTAINER_NAME}.tar
-#	@docker import /tmp/${EP_CONTAINER_NAME}.tar ${EP_CONTAINER_NAME}-flat:latest
-
 test:
-	@echo "\n ${BLUE}Testing server (def. localhost:7777 -- specify by PORT) ...${RESET}\n"
-	@python3 bin/check_server.py localhost ${PORT}
+	@echo -e "\n ${BLUE}Testing server (def. localhost:7777 -- specify by EXTERNAL_PORT) ...${RESET}\n"
+	@pip install samp-client && \
+		bin/check_server.py localhost ${EXTERNAL_PORT}
+
+logs:
+	@echo -e "\n${YELLOW} Fetching container's logs (CTRL-C to exit)... ${RESET}\n"
+	@docker logs ${CONTAINER_NAME} -f
 
 push:
-	@echo "\n ${BLUE}Pushing build image to Docker Hub ...${RESET}\n"
+	@echo -e "\n ${BLUE}Pushing build image to Docker Hub ...${RESET}\n"
 	@docker login && \
 		docker push ${TAG}
 
 prune:
-	@echo "\n ${BLUE}Executing 'docker system prune' ...${RESET}\n"
+	@echo -e "\n ${BLUE}Executing 'docker system prune' ...${RESET}\n"
 	@docker system prune
+

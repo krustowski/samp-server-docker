@@ -3,7 +3,7 @@ version: '3.6'
 services:
   samp-server:
     image: ${TAG}
-#    container_name: samp-server
+    container_name: ${CONTAINER_NAME}
     build: 
       context: .
       args:
@@ -11,9 +11,13 @@ services:
         TGZ_FILE: ${TGZ_FILE}
     restart: unless-stopped
     ports:
-      - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/tcp
-      - ${PORT_RANGE_START}-${PORT_RANGE_STOP}:7777/udp
+      - ${EXTERNAL_PORT}:7777/tcp
+      - ${EXTERNAL_PORT}:7777/udp
     volumes:
-#      - "instances/:/srv/samp03/"
-      - "./instances/:/mnt/"
+      - "./server.cfg:${APP_ROOT}/server.cfg"
+    networks:
+      - "samp-server-net"
 
+networks:
+  samp-server-net:
+    name: samp-server-net

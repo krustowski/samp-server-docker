@@ -45,7 +45,9 @@ RUN ln -sf /dev/stdout ${APP_ROOT}/server_log.txt
 #
 
 EXPOSE 7777
-COPY start.sh /start.sh
+COPY bin/start.sh /start.sh
+
 STOPSIGNAL SIGINT
+
 WORKDIR ${APP_ROOT}
 ENTRYPOINT ["/start.sh"]

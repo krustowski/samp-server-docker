@@ -2,6 +2,9 @@
 # Usage: `python example.py (address=localhost) (port=7777) (rcon_password)`
 # Example script demonstrating the use of this library
 #
+
+# credit: https://github.com/mick88/samp-client
+
 import sys
 from builtins import input
 
