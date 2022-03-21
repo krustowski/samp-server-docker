@@ -1,4 +1,4 @@
-# GTA SA:MP Linux Server in Docker (~128 MB)
+# GTA San Andreas Multiplayer (SA:MP) Linux Server in Docker (~128 MB)
 
 Very simple docker image for running GTA SA:MP Server 0.37 R2-1.
 
