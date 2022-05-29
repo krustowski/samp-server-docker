@@ -1,6 +1,6 @@
 # samp-server-docker Dockerfile
 
-FROM debian:buster-slim
+FROM debian:10.12-slim
 
 ARG TGZ_FILE
 ARG APP_ROOT
