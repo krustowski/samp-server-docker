@@ -12,9 +12,9 @@ Original Linux server tar.gz can be found here (included in this repo):
 
 ## Run image (using Makefile)
 
-Easiest way is using Makefile and .env (core constants) files:
+The easiest way is using Makefile (`gnumake`) and .env (core constants) files:
 
-```
+```shell
 # edit the constants (eg. EXTERNAL_PORT)
 vi .env
 
@@ -41,7 +41,7 @@ make stop
 
 Pull the image from Docker Hub and run it 
 
-```
+```shell
 docker run -d --rm -p 7777:7777 -p 7777:7777/udp --name samp-server krustowski/samp-server-docker
 ```
 
@@ -52,7 +52,7 @@ It it vital to forward both TCP and UDP ports!
 
 Image can be built using Dockerfile as well on the local machine:
 
-```
+```shell
 docker build . -t samp-server-built-image
 docker run -d -p 7777:7777 -p 7777:7777/udp --name samp-server2 samp-server-built-image
 ```
