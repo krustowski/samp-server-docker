@@ -1,6 +1,9 @@
 # samp-server-docker Dockerfile
 
-FROM debian:bullseye-slim
+ARG ALPINE_VERSION
+FROM alpine:${ALPINE_VERSION}
+
+MAINTAINER krusty <krusty@savla.dev>
 
 ARG TGZ_FILE
 ARG APP_ROOT
@@ -12,15 +15,12 @@ ENV APP_ROOT ${APP_ROOT}
 # install environment + architecture
 #
 
-RUN dpkg --add-architecture i386
-RUN apt update && \
-    apt upgrade -yy && \
-    apt install -yy \
-       apt-utils \
+RUN echo "x86" > /etc/apk/arch
+RUN apk add --update \
        libstdc++6 \
-       libc6:i386 \
-       libncurses5:i386 \
-       libstdc++6:i386 \
+       libc6-compat \
+       ncurses-dev \
+       libstdc++6 \
        procps
 
 #
@@ -44,10 +44,10 @@ RUN ln -sf /dev/stdout ${APP_ROOT}/server_log.txt
 # run server
 #
 
-EXPOSE 7777
-COPY bin/start.sh /start.sh
-
 STOPSIGNAL SIGINT
-
+EXPOSE 7777
 WORKDIR ${APP_ROOT}
-ENTRYPOINT ["/start.sh"]
+#COPY bin/start.sh /start.sh
+
+ENTRYPOINT ["./samp03svr"]
+
