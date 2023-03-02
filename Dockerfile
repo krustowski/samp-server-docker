@@ -1,6 +1,6 @@
 # samp-server-docker Dockerfile
 
-FROM debian:bullseye-slim
+FROM debian:11.6-slim
 
 ARG TGZ_FILE
 ARG APP_ROOT
